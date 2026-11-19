@@ -1,0 +1,554 @@
+{
+  "metadata": {
+    "course": "AP Computer Science A",
+    "unit": "Unit 2B (Iteration / Loops, Nested Loops, String Traversal, Algorithm Analysis)",
+    "sources": [
+      "Unit 2B Review Key.pdf (7 pages, Fuqua)",
+      "9 CodeCheck Interactive Java Problems (open browser tabs, all scored 10/10)"
+    ],
+    "ocr_verification_notes": [
+      "Review #10: Inner loop upper bound reconstructed as `b < 5` from the key's exact output `3 4 5 4 5 6 5 6 7`.",
+      "Review #11: Handwritten trace sums to 55 (which corresponds to `d <= c`). Raw OCR read `d < c` (which would print 35). Verify the inner condition on the printed sheet.",
+      "Review #13: Loop trace cleanly ends at `count1 = 1`, `count2 = -1`. Verify the final print operator on the original sheet (`count1 - count2` prints `2`; `count1 + \" \" + count2` prints `1 -1`).",
+      "Practice FRQ Part (b): Method signature `countFragileBeforeHeavy(String labels)` appears in the `Box` class header on page 7, but the prompt/key for Part (b) was not included in the 7-page PDF."
+    ]
+  },
+  "unit_2b_review_pdf": [
+    {
+      "id": "review_01",
+      "number": 1,
+      "page": 1,
+      "section": "Loop Tracing",
+      "instructions": "Write the values the loop variable takes and the output. If the code doesn't compile or never stops, say so.",
+      "code": "for (int i = 2; i < 6; i++)\n{\n    System.out.print(i / 2 + \" \");\n}",
+      "loop_variable_values": "i = 2, 3, 4, 5, 6",
+      "output": "1 1 2 2 ",
+      "explanation": "Integer division truncates decimals: 2/2=1, 3/2=1, 4/2=2, 5/2=2. Loop terminates when i becomes 6.",
+      "concepts": [
+        "for loop",
+        "integer division",
+        "loop termination value"
+      ]
+    },
+    {
+      "id": "review_02",
+      "number": 2,
+      "page": 1,
+      "section": "Loop Tracing",
+      "instructions": "Write the values the loop variable takes and the output. If the code doesn't compile or never stops, say so.",
+      "code": "for (int i = 8; i > 1; i -= 2)\n{\n    System.out.print(i + \" \");\n}",
+      "loop_variable_values": "i = 8, 6, 4, 2, 0",
+      "output": "8 6 4 2 ",
+      "explanation": "Decrements by 2 each iteration; stops when i reaches 0 (0 > 1 is false).",
+      "concepts": [
+        "decrementing for loop",
+        "step size"
+      ]
+    },
+    {
+      "id": "review_03",
+      "number": 3,
+      "page": 1,
+      "section": "Loop Tracing",
+      "instructions": "Write the values the loop variable takes and the output. If the code doesn't compile or never stops, say so.",
+      "code": "for (int i = 0; i < 6; i = (i + 2) / 2)\n{\n    System.out.print(i + \" \");\n}",
+      "loop_variable_values": "i = 0, 1, 1, 1, ...",
+      "output": "0 1 1 1 ... (Infinite loop)",
+      "explanation": "Starts at 0; (0+2)/2 = 1; then (1+2)/2 = 3/2 = 1 via integer division forever. Never reaches 6.",
+      "concepts": [
+        "infinite loop",
+        "integer division in loop update"
+      ]
+    },
+    {
+      "id": "review_04",
+      "number": 4,
+      "page": 1,
+      "section": "Loop Tracing",
+      "instructions": "Write the values the loop variable takes and the output. If the code doesn't compile or never stops, say so.",
+      "code": "for (int i = 2; i < 9; i++);\n{\n    if (i % 2 == 0)\n    {\n        System.out.print(i + \" \");\n    }\n}",
+      "loop_variable_values": "Does not compile",
+      "output": "Compiler error (i is out of scope)",
+      "explanation": "The trailing semicolon after the for header ends the loop immediately with an empty body. Because i is declared in the for header, i does not exist inside the following block.",
+      "concepts": [
+        "stray semicolon",
+        "variable scope",
+        "compile-time error"
+      ]
+    },
+    {
+      "id": "review_05",
+      "number": 5,
+      "page": 2,
+      "section": "Loop Tracing",
+      "instructions": "Write the values the loop variable takes and the output. If the code doesn't compile or never stops, say so.",
+      "code": "int limit = 8;\nint count;\nSystem.out.print(\"HA\");\nfor (count = 10; count <= limit; count++)\n{\n    System.out.print(\"P\");\n}\nSystem.out.print(\"Y\");",
+      "loop_variable_values": "count = 10 (loop body executes 0 times)",
+      "output": "HAY",
+      "explanation": "Initial condition 10 <= 8 is immediately false, so 'P' is never printed.",
+      "concepts": [
+        "zero-iteration loop",
+        "loop condition check before body"
+      ]
+    },
+    {
+      "id": "review_06",
+      "number": 6,
+      "page": 2,
+      "section": "Loop Tracing",
+      "instructions": "Write the values the loop variable takes and the output. If the code doesn't compile or never stops, say so.",
+      "code": "int count;\nSystem.out.print(\"Hello \");\nfor (count = 1; count <= 3; count++);\n{\n    System.out.print(\"Hi \");\n}\nSystem.out.print(\"Bye\");",
+      "loop_variable_values": "count = 1, 2, 3, 4",
+      "output": "Hello Hi Bye",
+      "explanation": "The semicolon immediately closes the loop (empty body runs 3 times). Then the block printing 'Hi ' runs once, followed by 'Bye'. Compiles because count is not referenced out of scope.",
+      "concepts": [
+        "stray semicolon",
+        "block scope"
+      ]
+    },
+    {
+      "id": "review_07",
+      "number": 7,
+      "page": 2,
+      "section": "Loop Tracing",
+      "instructions": "Write the values the loop variable takes and the output. If the code doesn't compile or never stops, say so.",
+      "code": "int num = 0;\nfor (int i = 5; i > 0; i--)\n{\n    if (i % 2 == 1)\n    {\n        num += i;\n    }\n}\nSystem.out.print(num);",
+      "loop_variable_values": "i = 5, 4, 3, 2, 1, 0",
+      "output": "9",
+      "explanation": "Adds odd values of i: 5 + 3 + 1 = 9.",
+      "concepts": [
+        "accumulator",
+        "modulo parity check",
+        "decrementing loop"
+      ]
+    },
+    {
+      "id": "review_08",
+      "number": 8,
+      "page": 3,
+      "section": "Nested Loops",
+      "prompt": "How many times is \"Here again\" printed?",
+      "code": "int count1 = 1;\nwhile (count1 <= 10)\n{\n    int count2 = 1;\n    while (count2 <= 50)\n    {\n        System.out.println(\"Here again\");\n        count2++;\n    }\n    count1++;\n}",
+      "output": "500 times",
+      "explanation": "Outer loop runs 10 times; inner loop resets count2 = 1 each time and runs 50 times. 10 * 50 = 500.",
+      "concepts": [
+        "nested while loops",
+        "iteration counting"
+      ]
+    },
+    {
+      "id": "review_09",
+      "number": 9,
+      "page": 3,
+      "section": "Nested Loops",
+      "prompt": "How many stars are printed in the last row of output?",
+      "code": "for (int r = 0; r <= 10; r++)\n{\n    for (int s = 0; s < r; s++)\n    {\n        System.out.print(\"*\");\n    }\n    System.out.println();\n}",
+      "output": "10 stars",
+      "explanation": "On the final iteration of the outer loop, r = 10. Inner loop runs for s = 0..9 (10 iterations).",
+      "concepts": [
+        "dependent nested loops",
+        "pattern printing"
+      ]
+    },
+    {
+      "id": "review_10",
+      "number": 10,
+      "page": 3,
+      "section": "Nested Loops",
+      "prompt": "What is printed?",
+      "code": "for (int a = 1; a <= 3; a++)\n{\n    for (int b = 2; b < 5; b++)\n    {\n        System.out.print(a + b + \" \");\n    }\n}",
+      "output": "3 4 5 4 5 6 5 6 7 ",
+      "explanation": "a=1 gives (1+2, 1+3, 1+4) = 3 4 5; a=2 gives 4 5 6; a=3 gives 5 6 7. Note: upper bound `5` reconstructed from key output.",
+      "concepts": [
+        "nested for loops",
+        "string concatenation with arithmetic"
+      ]
+    },
+    {
+      "id": "review_11",
+      "number": 11,
+      "page": 4,
+      "section": "Nested Loops",
+      "prompt": "What is printed?",
+      "code": "int total = 0;\nfor (int c = 2; c < 7; c++)\n{\n    for (int d = 1; d <= c; d++) // Verify original PDF: key trace uses d <= c (55); OCR read d < c (35)\n    {\n        total = total + d;\n    }\n}\nSystem.out.println(total);",
+      "output": "55 (if d <= c, matching key trace) / 35 (if d < c)",
+      "explanation": "With d <= c: sums are (1+2)=3, +(1+2+3)=9, +(1+2+3+4)=19, +(1+2+3+4+5)=34, +(1+2+3+4+5+6)=55. With d < c: 1+3+6+10+15 = 35.",
+      "concepts": [
+        "dependent nested loops",
+        "nested accumulator"
+      ]
+    },
+    {
+      "id": "review_12",
+      "number": 12,
+      "page": 4,
+      "section": "Nested Loops",
+      "prompt": "What is printed?",
+      "code": "String s = \"Bugs Bunny\";\nfor (int e = 0; e < s.length(); e++)\n{\n    for (int f = 0; f <= e; f++)\n    {\n        System.out.print(s.substring(f, f + 1));\n    }\n    System.out.println();\n}",
+      "output": "B\nBu\nBug\nBugs\nBugs \nBugs B\nBugs Bu\nBugs Bun\nBugs Bunn\nBugs Bunny",
+      "explanation": "Prints progressively longer prefixes of 'Bugs Bunny'. Line 5 ('Bugs ') ends with a space character (index 4).",
+      "concepts": [
+        "nested loops",
+        "String substring traversal",
+        "whitespace characters"
+      ]
+    },
+    {
+      "id": "review_13",
+      "number": 13,
+      "page": 4,
+      "section": "Tricky Traces",
+      "prompt": "What is printed?",
+      "code": "int count1 = 0;\nint count2 = 0;\nint inc = 1;\nfor (int i = 0; i < 11; i++)\n{\n    count1 += inc;\n    inc = -inc;\n    count2 += inc;\n}\nSystem.out.println(count1 - count2); // Verify operator on original PDF (OCR dropped operator)",
+      "output": "After i = 10: count1 = 1, count2 = -1 (prints 2 if `count1 - count2`, or `1 -1` if concatenated)",
+      "explanation": "Even i (0,2,4,6,8,10) leaves count1=1, count2=-1, inc=-1. Odd i (1,3,5,7,9) resets count1=0, count2=0, inc=1. Last iteration is i=10 (even).",
+      "concepts": [
+        "alternating sign state",
+        "pattern recognition in loops",
+        "even vs odd iterations"
+      ]
+    },
+    {
+      "id": "review_14",
+      "number": 14,
+      "page": 5,
+      "section": "Tricky Traces",
+      "prompt": "What is printed?",
+      "code": "int a = 0;\nint b = 0;\nwhile (a < 3)\n{\n    if (a + b == 0)\n    {\n        a++;\n    }\n    else if (a + b == 1 || a + b == 2)\n    {\n        b++;\n    }\n    else if (a + b == 3)\n    {\n        a++;\n    }\n    else\n    {\n        b = 0;\n    }\n    System.out.println(b);\n}",
+      "output": "0\n1\n2\n2\n0\n1\n1",
+      "explanation": "State table (a,b) after each step: (1,0)->0; (1,1)->1; (1,2)->2; (2,2)->2; (2,0)->0; (2,1)->1; (3,1)->1; then a<3 is false.",
+      "concepts": [
+        "while loop state trace",
+        "chained if/else if/else"
+      ]
+    },
+    {
+      "id": "review_15",
+      "number": 15,
+      "page": 5,
+      "section": "Which Does More Work?",
+      "prompt": "n is 20. count starts at 0. Give how many times count++ runs in each segment, and say which one does more work.",
+      "code": "// Segment A\nfor (int i = 0; i < n; i++)\n{\n    for (int j = 0; j < 5; j++)\n    {\n        count++;\n    }\n}\n\n// Segment B\nfor (int i = 0; i < n; i += 2)\n{\n    for (int j = 0; j < n; j++)\n    {\n        count++;\n    }\n}",
+      "output": "Segment A: 100 times (20 * 5). Segment B: 200 times (10 * 20). Segment B does more work.",
+      "explanation": "Segment A executes 5n = 100 times; Segment B executes (n/2)*n = 10*20 = 200 times.",
+      "concepts": [
+        "statement execution count",
+        "nested loop complexity",
+        "step size"
+      ]
+    },
+    {
+      "id": "review_16",
+      "number": 16,
+      "page": 6,
+      "section": "Which Does More Work?",
+      "prompt": "n is 10. count starts at 0. Give how many times count++ runs in each segment, and say which one does more work.",
+      "code": "// Segment A\nfor (int i = 0; i < n; i++)\n{\n    for (int j = 0; j < n; j++)\n    {\n        count++;\n    }\n}\n\n// Segment B\nfor (int i = 0; i < n; i++)\n{\n    count++;\n}\nfor (int j = 0; j < n; j++)\n{\n    count++;\n}\nfor (int k = 0; k < n; k++)\n{\n    count++;\n}",
+      "output": "Segment A: 100 times (10 * 10). Segment B: 30 times (10 + 10 + 10). Segment A does more work.",
+      "explanation": "Nested loops multiply (n^2 = 100); sequential (non-nested) loops add (3n = 30).",
+      "concepts": [
+        "nested vs sequential loops",
+        "statement execution count"
+      ]
+    },
+    {
+      "id": "review_17",
+      "number": 17,
+      "page": 6,
+      "section": "Write It",
+      "prompt": "num is a positive int. Write code that counts how many digits of num are odd, then prints the count. For example, if num is 37254, it prints 3.",
+      "solution": "int count = 0;\nwhile (num > 0)\n{\n    int digit = num % 10;\n    if (digit % 2 == 1)\n    {\n        count++;\n    }\n    num /= 10;\n}\nSystem.out.print(count);",
+      "concepts": [
+        "digit extraction",
+        "while loop",
+        "modulo and integer division"
+      ]
+    },
+    {
+      "id": "review_18",
+      "number": 18,
+      "page": 6,
+      "section": "Write It",
+      "prompt": "word is a String. Write code that prints word backwards. For example, if word is \"stressed\", it prints \"desserts\".",
+      "solution": "String rev = \"\";\nfor (int i = word.length() - 1; i >= 0; i--)\n{\n    rev += word.substring(i, i + 1);\n}\nSystem.out.println(rev);",
+      "concepts": [
+        "reverse String traversal",
+        "String building",
+        "substring"
+      ]
+    },
+    {
+      "id": "review_19",
+      "number": 19,
+      "page": 6,
+      "section": "Write It",
+      "prompt": "word is a String. Write code that sets hasVowelPair to true if word has two vowels (a, e, i, o, u) in a row anywhere, and false otherwise. For example, \"beautiful\" gives true and \"banana\" gives false.",
+      "solution": "boolean hasVowelPair = false;\nfor (int i = 0; i < word.length() - 1; i++)\n{\n    String curr = word.substring(i, i + 1);\n    String next = word.substring(i + 1, i + 2);\n    if (\"aeiou\".indexOf(curr) >= 0 && \"aeiou\".indexOf(next) >= 0)\n    {\n        hasVowelPair = true;\n    }\n}",
+      "explanation": "Loop stops at word.length() - 1 because we inspect pairs (i and i+1) to prevent StringIndexOutOfBoundsException.",
+      "concepts": [
+        "adjacent pair comparison",
+        "indexOf",
+        "bounds safety"
+      ]
+    },
+    {
+      "id": "review_frq_a",
+      "number": "FRQ (a)",
+      "page": 7,
+      "section": "Practice Free-Response",
+      "prompt": "A shipping company packs items into boxes using the Box class (with helper `public static double getItemWeight()`). Write `packBox(double maxWeight)`. Items are packed one at a time in the order returned by `getItemWeight()`. Packing stops when the next item would make the total weight greater than `maxWeight`. That item is not packed. Return the number of items packed.",
+      "starter_code": "public class Box\n{\n    public static double getItemWeight() { /* implementation not shown */ }\n    public static int packBox(double maxWeight) { /* to be implemented in part (a) */ }\n    public static int countFragileBeforeHeavy(String labels) { /* to be implemented in part (b) - not in PDF */ }\n}",
+      "examples": [
+        {
+          "weights": "4.0, 6.5, 3.0, 9.0, ...",
+          "maxWeight": 15.0,
+          "returns": 3,
+          "note": "9.0 would make total 22.5"
+        },
+        {
+          "weights": "5.0, 5.0, 1.0, ...",
+          "maxWeight": 10.0,
+          "returns": 2,
+          "note": "total of exactly 10.0 is allowed"
+        },
+        {
+          "weights": "12.0, ...",
+          "maxWeight": 10.0,
+          "returns": 0,
+          "note": "first item already exceeds maxWeight"
+        }
+      ],
+      "solution": "public static int packBox(double maxWeight)\n{\n    int count = 0;\n    double total = 0;\n    double next = getItemWeight();\n    while (total + next <= maxWeight)\n    {\n        count++;\n        total += next;\n        next = getItemWeight();\n    }\n    return count;\n}",
+      "explanation": "Uses a priming read (`next = getItemWeight()`) before the loop so the candidate item can be checked against `maxWeight` before adding it and incrementing `count`.",
+      "concepts": [
+        "AP CSA FRQ",
+        "while loop with priming read",
+        "accumulator and counter"
+      ]
+    }
+  ],
+  "codecheck_practice": [
+    {
+      "id": "cc_01",
+      "class_name": "DoubleLetter",
+      "method_signature": "public boolean hasDoubleLetter(String word)",
+      "url": "https://codecheck.io/files/2610231444bdwx9y4xhz8601ea61f8wlxmj",
+      "prompt": "Given a String (at least one character), determine whether it has the same letter twice in a row. Return true if any letter is immediately followed by the same letter, false otherwise. Capital and lowercase letters count as different letters.",
+      "examples": [
+        {
+          "in": "coffee",
+          "out": "true"
+        },
+        {
+          "in": "orange",
+          "out": "false"
+        },
+        {
+          "in": "x",
+          "out": "false"
+        }
+      ],
+      "solution": "public boolean hasDoubleLetter(String word) {\n    for (int i = 0; i < word.length() - 1; i++) {\n        if (word.charAt(i) == word.charAt(i + 1)) {\n            return true;\n        }\n    }\n    return false;\n}",
+      "concepts": [
+        "adjacent character comparison",
+        "early return",
+        "bounds (length - 1)"
+      ]
+    },
+    {
+      "id": "cc_02",
+      "class_name": "LargestDigit",
+      "method_signature": "public int largestDigit(int num)",
+      "url": "https://codecheck.io/files/261023130513q7ac139hg8on7f27x3fp935",
+      "prompt": "Given a positive int, return its largest digit.",
+      "examples": [
+        {
+          "in": "52819",
+          "out": "9"
+        },
+        {
+          "in": "3020",
+          "out": "3"
+        },
+        {
+          "in": "6",
+          "out": "6"
+        }
+      ],
+      "solution": "public int largestDigit(int num) {\n    int max = 0;\n    while (num > 0) {\n        int digit = num % 10;\n        if (digit > max) {\n            max = digit;\n        }\n        num /= 10;\n    }\n    return max;\n}",
+      "concepts": [
+        "digit extraction",
+        "running maximum",
+        "while loop"
+      ]
+    },
+    {
+      "id": "cc_03",
+      "class_name": "ApproxPi",
+      "method_signature": "public double approxPi(int terms)",
+      "url": "https://codecheck.io/files/241018163624elbnhbof3ozqcan4dph87ks",
+      "prompt": "The Leibniz approximation for pi is pi/4 = 1 - 1/3 + 1/5 - 1/7 + 1/9 - ... Given a number of terms (>= 1), return the Leibniz approximation for pi to that many terms.",
+      "examples": [
+        {
+          "in": "1",
+          "out": "4.0"
+        },
+        {
+          "in": "25",
+          "out": "3.1815766854350325"
+        }
+      ],
+      "solution": "public double approxPi(int terms) {\n    double sum = 0.0;\n    for (int i = 0; i < terms; i++) {\n        double term = 1.0 / (2 * i + 1);\n        if (i % 2 == 0) {\n            sum += term;\n        } else {\n            sum -= term;\n        }\n    }\n    return sum * 4.0;\n}",
+      "concepts": [
+        "alternating series",
+        "floating-point division",
+        "for loop accumulator"
+      ]
+    },
+    {
+      "id": "cc_04",
+      "class_name": "CheckPrime",
+      "method_signature": "public boolean checkPrime(int num)",
+      "url": "https://codecheck.io/files/2410181628ejbcuoyuta0u12d7grm17vf8c",
+      "prompt": "Given a positive int (>= 2), determine whether or not it is prime.",
+      "examples": [
+        {
+          "in": "23",
+          "out": "true"
+        },
+        {
+          "in": "120",
+          "out": "false"
+        }
+      ],
+      "solution": "public boolean checkPrime(int num) {\n    for (int i = 2; i * i <= num; i++) {\n        if (num % i == 0) {\n            return false;\n        }\n    }\n    return true;\n}",
+      "concepts": [
+        "divisibility testing",
+        "sqrt optimization",
+        "early return"
+      ]
+    },
+    {
+      "id": "cc_05",
+      "class_name": "CountChar",
+      "method_signature": "public int countChar(String phrase, String letter)",
+      "url": "https://codecheck.io/files/24101817014qo11nvpd5osbi8e5a6mewvbx",
+      "prompt": "Given a string and a single letter, count how many times that letter appears in the string (case-insensitive).",
+      "examples": [
+        {
+          "in": "Pizza party, p",
+          "out": "2"
+        },
+        {
+          "in": "hip hip hooray, a",
+          "out": "1"
+        },
+        {
+          "in": "carpark, j",
+          "out": "0"
+        }
+      ],
+      "solution": "public int countChar(String phrase, String letter) {\n    phrase = phrase.toLowerCase();\n    letter = letter.toLowerCase();\n    int count = 0;\n    for (int i = 0; i < phrase.length(); i++) {\n        if (phrase.substring(i, i + 1).equals(letter)) {\n            count++;\n        }\n    }\n    return count;\n}",
+      "concepts": [
+        "case-insensitive matching",
+        "String traversal",
+        "substring + equals"
+      ]
+    },
+    {
+      "id": "cc_06",
+      "class_name": "DiagonalPrint",
+      "method_signature": "public String diagonalPrint(int n)",
+      "url": "https://codecheck.io/files/24101817116d51oj6apd9zddgz0nsuj6221",
+      "prompt": "Given a positive integer (n), return a string containing an n by n grid of asterisks except the positive diagonal (top left to lower right) is replaced by an O. Each symbol is followed by a space, including the last one on each line.",
+      "examples": [
+        {
+          "in": "3",
+          "out": "O * * \n* O * \n* * O "
+        },
+        {
+          "in": "5",
+          "out": "O * * * * \n* O * * * \n* * O * * \n* * * O * \n* * * * O "
+        }
+      ],
+      "solution": "public String diagonalPrint(int n) {\n    String result = \"\";\n    for (int row = 0; row < n; row++) {\n        for (int col = 0; col < n; col++) {\n            if (row == col) {\n                result += \"O \";\n            } else {\n                result += \"* \";\n            }\n        }\n        if (row < n - 1) {\n            result += \"\\n\";\n        }\n    }\n    return result;\n}",
+      "concepts": [
+        "nested loops",
+        "2D grid indexing (row == col)",
+        "newline formatting"
+      ]
+    },
+    {
+      "id": "cc_07",
+      "class_name": "Exclamations",
+      "method_signature": "public String exclamation(String input)",
+      "url": "https://codecheck.io/files/2410181652300phyahqslluvyz2l7tt2wzu",
+      "prompt": "Given a string, return that same string with every character followed by an exclamation mark.",
+      "examples": [
+        {
+          "in": "pizza",
+          "out": "p!i!z!z!a!"
+        },
+        {
+          "in": "I am sleepy",
+          "out": "I! !a!m! !s!l!e!e!p!y!"
+        }
+      ],
+      "solution": "public String exclamation(String input) {\n    String result = \"\";\n    for (int i = 0; i < input.length(); i++) {\n        result += input.substring(i, i + 1) + \"!\";\n    }\n    return result;\n}",
+      "concepts": [
+        "String building",
+        "single-character substring traversal"
+      ]
+    },
+    {
+      "id": "cc_08",
+      "class_name": "NumberDoubler",
+      "method_signature": "public int doubleNum(int input)",
+      "url": "https://codecheck.io/files/241018121286rldfcm8krh6e6zgtiayyl8a",
+      "prompt": "Take an input (will not be 0) and count how many times you have to double it before it reaches 100 (i.e., before it is > 99 or < -99).",
+      "examples": [
+        {
+          "in": "50",
+          "out": "1"
+        },
+        {
+          "in": "-14",
+          "out": "3"
+        },
+        {
+          "in": "123",
+          "out": "0"
+        }
+      ],
+      "solution": "public int doubleNum(int input) {\n    int doubleNum = 0;\n    while (input < 100 && input > -100) {\n        input *= 2;\n        doubleNum++;\n    }\n    return doubleNum;\n}",
+      "concepts": [
+        "while loop",
+        "compound boolean condition",
+        "negative number handling"
+      ]
+    },
+    {
+      "id": "cc_09",
+      "class_name": "TrianglePrint",
+      "method_signature": "public String triPrint(int n)",
+      "url": "https://codecheck.io/files/2410181718cpcutezpekac4q16jm0y8j38e",
+      "prompt": "Given a positive int, return a string containing a countdown triangle from that number matching the examples. Each number is followed by a space, including the last one on each line.",
+      "examples": [
+        {
+          "in": "5",
+          "out": "5 4 3 2 1 \n4 3 2 1 \n3 2 1 \n2 1 \n1 "
+        },
+        {
+          "in": "2",
+          "out": "2 1 \n1 "
+        }
+      ],
+      "solution": "public String triPrint(int n) {\n    String result = \"\";\n    for (int i = n; i >= 1; i--) {\n        for (int j = i; j >= 1; j--) {\n            result += j + \" \";\n        }\n        if (i > 1) {\n            result += \"\\n\";\n        }\n    }\n    return result;\n}",
+      "concepts": [
+        "dependent nested decrementing loops",
+        "String building",
+        "newline formatting"
+      ]
+    }
+  ]
+}
